@@ -14,7 +14,7 @@ account_tier = "Standard"
 account_replication_type = "LRS"
 
 
-# Prevent public blob/container access
+# Prevent public blob/container access.
 public_network_access_enabled = false
 
 
