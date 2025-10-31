@@ -1,0 +1,60 @@
+name: IaC Security Scan (Checkov)
+
+on:
+  push:
+    branches:
+      - main
+      - infra
+    paths:
+      - 'infra/**'
+  pull_request:
+    paths:
+      - 'infra/**'
+    branches:
+      - main
+      - infra
+  workflow_dispatch:
+
+jobs:
+  checkov-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Checkov
+        run: |
+          pip install checkov
+
+      - name: Get timestamp
+        id: timestamp
+        run: echo "timestamp=$(date +'%Y%m%d_%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: Run Checkov on Terraform directory
+        run: |
+          echo "🔍 Running Checkov scan on Terraform code..."
+          mkdir -p reports
+          # Run Checkov with separate output paths for CSV and JSON
+          checkov -d ./infra --quiet \
+            --output cli \
+            --output csv --output-file-path reports/checkov-report-csv-${{ steps.timestamp.outputs.timestamp }}.csv \
+            --output json --output-file-path reports/checkov-report-json-${{ steps.timestamp.outputs.timestamp }}.json
+
+      - name: List Reports Directory
+        run: ls -la reports/
+        if: always()
+
+      - name: Upload Checkov Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: checkov-scan-reports-${{ steps.timestamp.outputs.timestamp }}
+          path: |
+            reports/checkov-report-csv-${{ steps.timestamp.outputs.timestamp }}.csv
+            reports/checkov-report-json-${{ steps.timestamp.outputs.timestamp }}.json
