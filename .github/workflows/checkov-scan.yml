@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - main
-      - infra
+      - azure
     paths:
-      - 'infra/**'
+      - 'azure/**'
   pull_request:
     paths:
-      - 'infra/**'
+      - 'azure/**'
     branches:
       - main
-      - infra
+      - azure
   workflow_dispatch:
 
 jobs:
