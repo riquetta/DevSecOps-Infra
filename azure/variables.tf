@@ -6,7 +6,7 @@ default = "canadacentral"
 
 variable "resource_group_name" {
 type = string
-default = "rg-aks-demo"
+default = "rg-aks-tf"
 }
 
 

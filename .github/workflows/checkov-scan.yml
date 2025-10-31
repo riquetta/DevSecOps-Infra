@@ -41,7 +41,7 @@ jobs:
           echo "🔍 Running Checkov scan on Terraform code..."
           mkdir -p reports
           # Run Checkov with separate output paths for CSV and JSON
-          checkov -d ./infra --quiet \
+          checkov -d azure --quiet \
             --output cli \
             --output csv --output-file-path reports/checkov-report-csv-${{ steps.timestamp.outputs.timestamp }}.csv \
             --output json --output-file-path reports/checkov-report-json-${{ steps.timestamp.outputs.timestamp }}.json

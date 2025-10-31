@@ -18,7 +18,7 @@ account_replication_type = "LRS"
 public_network_access_enabled = false
 
 
-# Recommended: disable public network access and use private endpoints for production!
+# Recommended: disable public network access and use private endpoints for production
 network_rules {
   default_action = "Deny"
 }
