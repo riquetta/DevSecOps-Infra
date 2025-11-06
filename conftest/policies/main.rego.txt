@@ -1,0 +1,18 @@
+package main
+
+import data.terraform.azure.encryption
+import data.terraform.azure.storage
+import data.terraform.azure.tags
+
+# Collect all deny messages from imported modules
+deny[msg] if {
+    encryption.deny[msg]
+}
+
+deny[msg] if {
+    storage.deny[msg]
+}
+
+deny[msg] if {
+    tags.deny[msg]
+}
